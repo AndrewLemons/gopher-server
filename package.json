@@ -2,12 +2,12 @@
 	"name": "gopher-server",
 	"version": "0.1.0",
 	"description": "A simple gopher server for Node-JS.",
+	"repository": "https://github.com/AndrewLemons/gopher-server",
 	"main": "src/index.js",
 	"scripts": {
 		"test": "node test/server.js",
 		"prettier": "prettier . -w"
 	},
-	"author": "andrewlemons",
 	"license": "MIT",
 	"devDependencies": {
 		"prettier": "^2.2.1"
