@@ -1,6 +1,6 @@
 {
 	"name": "gopher-server",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A simple gopher server for Node-JS.",
 	"repository": "https://github.com/AndrewLemons/gopher-server",
 	"main": "src/index.js",
