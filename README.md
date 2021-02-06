@@ -1,5 +1,7 @@
 # gopher-server
 
+![npm (tag)](https://img.shields.io/npm/v/gopher-server/latest?style=flat-square) ![npm bundle size (version)](https://img.shields.io/bundlephobia/min/gopher-server/0.2.1?style=flat-square) ![npm](https://img.shields.io/npm/dt/gopher-server?style=flat-square) ![NPM](https://img.shields.io/npm/l/gopher-server?style=flat-square)
+
 A simple gopher server for Node-JS.
 
 ## Setup
@@ -50,7 +52,7 @@ Dynamic routes are routes that do not base their content off of files. Take for 
 
 ```javascript
 app.handle("/test/:id", (socket, params) => {
-	socket.write(`${id}`, (err) => {
+	socket.write(`${params.id}`, (err) => {
 		socket.end();
 	});
 });
