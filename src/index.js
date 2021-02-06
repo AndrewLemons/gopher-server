@@ -3,7 +3,15 @@ const fs = require("fs");
 const path = require("path");
 const { EventEmitter } = require("events");
 
+/**
+ * A server for handling gopher requests.
+ * @class
+ */
 class GopherServer extends EventEmitter {
+	/**
+	 * Create a new gopher server.
+	 * @param {string} staticDir Full path of the static directory for the server's content.
+	 */
 	constructor(staticDir) {
 		super();
 
@@ -118,15 +126,30 @@ class GopherServer extends EventEmitter {
 		});
 	}
 
+	/**
+	 * Create a function to programmatically handle a route.
+	 * @param {string} route Route for the handler to apply to.
+	 * @param {function(net.Socket, object)} handler Handler function.
+	 */
 	handle(route, handler) {
 		this.handlers[route] = handler;
 	}
 
+	/**
+	 * Start the server listening on a certain port.
+	 * @param {number} port Port to listen on.
+	 * @param {function} callback Callback for when the server has been started.
+	 */
 	listen(port, callback) {
 		this.server.listen(port, callback);
 	}
 }
 
+/**
+ * Generate a route regex.
+ * @param {string} route Route to create a regex from.
+ * @param {array} params An array of parameters container in the route.
+ */
 function getRouteRegex(route, params) {
 	let regexString = route;
 	params.forEach((param) => {
@@ -137,6 +160,10 @@ function getRouteRegex(route, params) {
 	return RegExp(regexString);
 }
 
+/**
+ * Return HTML for a redirect page.
+ * @param {string} url URL to redirect to.
+ */
 function redirectPage(url) {
 	return `
 		<html>
