@@ -32,7 +32,7 @@ static
   content1
   dir1
   - .gophermap
-	content2
+    content2
 ```
 
 When accessing a directory, the directory's `.gophermap` is sent. When the requested resource is a file, the file is sent.
