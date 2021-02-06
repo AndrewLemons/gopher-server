@@ -13,15 +13,6 @@ class GopherServer {
 				// Parse the request route
 				let route = request.toString().trim();
 				if (route === "") route = "/";
-				let requestPath = path.join(staticDir, route);
-
-				// Prevent stupid stuff
-				if (route.includes(".")) {
-					socket.write("An error occurred.", (err) => {
-						socket.end();
-					});
-					return;
-				}
 
 				// Handle an HTTP redirect
 				if (route.startsWith("URL:")) {
@@ -30,6 +21,16 @@ class GopherServer {
 					});
 					return;
 				}
+
+				// Ensure that the route is valid
+				if (!/^(\/\w*)*\/?\w*\.?\w*$/.test(route)) {
+					socket.write("An error occurred.", (err) => {
+						socket.end();
+					});
+					return;
+				}
+
+				let requestPath = path.join(staticDir, route);
 
 				// Get stat
 				fs.stat(requestPath, (err, stats) => {
