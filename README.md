@@ -44,6 +44,20 @@ iHello World	fake	(NULL)	0
 
 Gopher maps can be confusing to make at first, so the [wikipedia page](<https://wikipedia.org/wiki/Gopher_(protocol)>) is a good resource. Keep in mind that `localhost` needs to be changed to your server's hostname. For example, `example.com`.
 
+### Dynamic Routes
+
+Dynamic routes are routes that do not base their content off of files. Take for example the dynamic route `/test/:id`. `:id` can be replaced by any value. This value can then be used to render and send content to the user.
+
+```javascript
+app.handle("/test/:id", (socket, params) => {
+	socket.write(`${id}`, (err) => {
+		socket.end();
+	});
+});
+```
+
+`socket` is the Node JS net socket of the current request, and `params` is an object containing the params of the route (the `:id`).
+
 ## Example
 
 An full example setup can be found in `./test`.
