@@ -28,7 +28,7 @@ class GopherServer extends EventEmitter {
 					// Get params for the route and create the regex
 					let params = [...handlerRoute.matchAll(/:[^./:]*/g)];
 					let routeRegex = getRouteRegex(handlerRoute, params);
-					
+
 					// Determine if the route applies to the handler
 					if (routeRegex.test(route)) {
 						let parsedRoute = handlerRoute;
@@ -46,14 +46,16 @@ class GopherServer extends EventEmitter {
 
 							// Get the param
 							let paramValue = route.slice(paramStart, paramEnd);
-							parsedParams[params[Object.keys(parsedParams).length][0].replace(":", "")] = paramValue;
+							parsedParams[
+								params[Object.keys(parsedParams).length][0].replace(":", "")
+							] = paramValue;
 							parsedRoute = parsedRoute.replace(currentParams[0], paramValue);
 						}
-						
+
 						// Call the handler
 						this.handlers[handlerRoute](socket, parsedParams);
 						return;
-					};
+					}
 				}
 
 				if (this.handlers[route]) {
