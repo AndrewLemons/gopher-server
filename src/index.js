@@ -17,9 +17,8 @@ const Router = require("./routers/router");
 class GopherServer extends EventEmitter {
 	/**
 	 * Create a new gopher server.
-	 * @param {string} staticDir Full path of the static directory for the server's content.
 	 */
-	constructor(staticDir) {
+	constructor() {
 		super();
 
 		this.server = net.createServer();
