@@ -2,4 +2,5 @@ iNode-Gopher Example	fake	(NULL)	0
 iWelcome to the Node-Gopher example gopher space!	fake	(NULL)	0
 1Foo	/foo	localhost	70
 0Fizz Buzz	/fizzbuzz	localhost	70
+0Dynamic Test	/test	localhost	70
 hNodeJS Website	URL:https://nodejs.org	localhost	70

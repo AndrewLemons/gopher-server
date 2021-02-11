@@ -10,10 +10,9 @@ A simple gopher server for Node-JS.
 2. Create the server
 
    ```javascript
-   const path = require("path");
    const { GopherServer } = require("gopher-server");
 
-   let server = new GopherServer(path.join(__dirname, "static"));
+   let server = new GopherServer();
    ```
 
 3. Start the server
@@ -24,7 +23,11 @@ A simple gopher server for Node-JS.
 
 ## Creating Content
 
-Content is created through the file system. Here is an example file layout.
+Content is created through routers. Different routers have different jobs.
+
+### Static router
+
+The static router serves content based on files. So, files are layed out like the server will display them.
 
 ```
 static
@@ -32,7 +35,7 @@ static
   content1
   dir1
   - .gophermap
-	content2
+    content2
 ```
 
 When accessing a directory, the directory's `.gophermap` is sent. When the requested resource is a file, the file is sent.
@@ -46,20 +49,32 @@ iHello World	fake	(NULL)	0
 
 Gopher maps can be confusing to make at first, so the [wikipedia page](<https://wikipedia.org/wiki/Gopher_(protocol)>) is a good resource. Keep in mind that `localhost` needs to be changed to your server's hostname. For example, `example.com`.
 
-### Dynamic Routes
-
-Dynamic routes are routes that do not base their content off of files. Take for example the dynamic route `/test/:id`. `:id` can be replaced by any value. This value can then be used to render and send content to the user.
-
 ```javascript
-app.handle("/test/:id", (socket, params) => {
-	socket.write(`${params.id}`, (err) => {
-		socket.end();
-	});
-});
+app.use(
+	new StaticRouter(path.join(__dirname, "static"))
+);
 ```
 
-`socket` is the Node JS net socket of the current request, and `params` is an object containing the params of the route (the `:id`).
+### Dynamic Router
+
+The dynamic router serves content programmatically. Take for example the dynamic route `/test/:id`. `:id` can be replaced by any value. This value can then be used to render and send content to the user.
+
+```javascript
+app.use(
+	new DynamicRouter("/test/:id", (request, params) => {
+		request.send(`You sent an ID of ${params.id}.`);
+	})
+);
+```
+
+### URL Router
+
+The URL router simply redirects all "URL:" requests to a redirect page. It's more of a utility, and can simply be thrown in and forgotten about.
+
+```javascript
+app.use(new URLRouter());
+```
 
 ## Example
 
-An full example setup can be found in `./test`.
+A full example setup can be found in `./test`.
