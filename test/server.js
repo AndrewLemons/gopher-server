@@ -1,29 +1,30 @@
-const { GopherServer } = require("../src/index");
+const {
+	GopherServer,
+	StaticRouter,
+	DynamicRouter,
+	URLRouter,
+} = require("../src/index");
 const path = require("path");
 
 // Create the server
-const app = new GopherServer(path.join(__dirname, "./static"));
+const app = new GopherServer();
 
-// Create a handler for all requests to "/test"
-app.handle("/test", (socket) => {
-	socket.write("This is a programmatically created test page!", (err) => {
-		socket.end();
-	});
-});
+// Use a URL router
+app.use(new URLRouter());
 
-// Create a handler for all requests to "/test/*"
-app.handle("/test/:id", (socket, params) => {
-	socket.write(
-		`This is a programmatically created test page!\nYou requested page ${params.id}.`,
-		(err) => {
-			socket.end();
-		}
-	);
-});
+// Use a static router
+app.use(new StaticRouter(path.join(__dirname, "./static")));
+
+// Use a Dynamic Router
+app.use(
+	new DynamicRouter("/test/:id", (request, params) => {
+		request.send(`You sent an ID of ${params.id}.`);
+	})
+);
 
 // Log all requests to the server
-app.on("request", (route, ip) => {
-	console.log(`${ip} requested ${route}`);
+app.on("request", (request) => {
+	console.log(`${request.socket.remoteAddress} requested ${request.path}`);
 });
 
 // Start the server on port 70
