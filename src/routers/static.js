@@ -22,7 +22,7 @@ class StaticRouter extends Router {
 
 	canHandle(request) {
 		// Ensure that the path is not bad
-		if (!PATH_REGEX.test(request.route)) return false;
+		if (!PATH_REGEX.test(request.path)) return false;
 
 		// Check the path for existence
 		try {
@@ -36,7 +36,7 @@ class StaticRouter extends Router {
 
 	handle(request) {
 		// Ensure that the path is not bad
-		if (!PATH_REGEX.test(request.route)) return false;
+		if (!PATH_REGEX.test(request.path)) return false;
 
 		// Get stat
 		let requestPath = path.join(this.dir, request.path);
